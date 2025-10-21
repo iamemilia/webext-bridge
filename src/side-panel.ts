@@ -5,13 +5,23 @@ import { createPersistentPort } from './internal/persistent-port'
 
 // const port = createPersistentPort(`devtools@${browser.devtools.inspectedWindow.tabId}`)
 
-const port = createPersistentPort(`side-panel@${tabId}`)
-const endpointRuntime = createEndpointRuntime(
-  'side-panel',
-  message => port.postMessage(message),
-)
+export function createSidePanel(tabId: any) {
+  const port = createPersistentPort(`side-panel@${tabId}`)
+  const endpointRuntime = createEndpointRuntime(
+    'side-panel',
+    message => port.postMessage(message),
+  )
 
-port.onMessage(endpointRuntime.handleMessage)
+  port.onMessage(endpointRuntime.handleMessage)
 
-export const { sendMessage, onMessage } = endpointRuntime
-export const { openStream, onOpenStreamChannel } = createStreamWirings(endpointRuntime)
+  const { sendMessage, onMessage } = endpointRuntime
+  const { openStream, onOpenStreamChannel } = createStreamWirings(endpointRuntime)
+
+  return {
+    sendMessage,
+    onMessage,
+    openStream,
+    onOpenStreamChannel
+  }
+}
+
