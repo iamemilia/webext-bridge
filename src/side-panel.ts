@@ -3,8 +3,6 @@ import { createEndpointRuntime } from './internal/endpoint-runtime'
 import { createStreamWirings } from './internal/stream'
 import { createPersistentPort } from './internal/persistent-port'
 
-// const port = createPersistentPort(`devtools@${browser.devtools.inspectedWindow.tabId}`)
-
 export function createSidePanel(tabId: any) {
   const port = createPersistentPort(`side-panel@${tabId}`)
   const endpointRuntime = createEndpointRuntime(
